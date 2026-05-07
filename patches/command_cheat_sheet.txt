@@ -1,0 +1,19 @@
+# 堆叠哨兵1
+for patch in /scratch/ray25/spun_patch_proc/train_ecm_d-pixel/*_rarefied; do 
+  [[ -d "$patch/data_sar_raw" ]] && \
+  mkdir -p "$patch/data_processed" && \
+  /scratch/ray25/spun_patch_proc/s1_stack \
+    -i "$patch/data_sar_raw" \
+    -o "$patch/data_processed" \
+    -p 1; 
+done
+
+# 堆叠哨兵2
+for patch in /scratch/ray25/spun_patch_proc/train_ecm_d-pixel/*_rarefied; do 
+  [[ -d "$patch/data_sar_raw" ]] && \
+  mkdir -p "$patch/data_processed" && \
+  /scratch/ray25/spun_patch_proc/s2_process_tile_downstream_wo_json \
+    -i "$patch/data_raw" \
+    -o "$patch/data_processed" \
+    -r 1; 
+done
